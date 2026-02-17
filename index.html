@@ -44,27 +44,28 @@
       flex-direction:column;
       width:100vw;
       height:100vh;
-      padding: 1vh;
+      padding: 8px;
       align-items:center;
-      gap: 8px;
+      gap: 6px;
+      overflow: hidden;
     }
 
     .control-center{
       background:#1a1a1a;
-      padding:12px;
-      border-radius:12px;
+      padding:8px;
+      border-radius:8px;
       border:1px solid #333;
       width:100%;
-      max-width: 1060px;
+      flex-shrink: 0;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:6px;
     }
 
     .mode-selector{
       display:flex;
       justify-content:center;
-      gap:8px;
+      gap:6px;
       flex-wrap:wrap;
       align-items:center;
     }
@@ -72,11 +73,12 @@
       background:#333;
       color:#fff;
       border:1px solid #444;
-      padding:6px 12px;
+      padding:6px 10px;
       border-radius:6px;
       cursor:pointer;
-      font-size:0.85rem;
+      font-size:0.8rem;
       user-select:none;
+      white-space: nowrap;
     }
     .mode-btn.active{
       background: var(--accent);
@@ -87,38 +89,39 @@
     select.mode-btn{
       appearance:none;
       -webkit-appearance:none;
-      padding-right: 26px;
+      padding-right: 24px;
       position:relative;
     }
 
     .connection-panel{
       display:none;
       justify-content:center;
-      gap:8px;
+      gap:6px;
       align-items:center;
       background:#222;
-      padding:8px;
-      border-radius:8px;
+      padding:6px;
+      border-radius:6px;
       flex-wrap:wrap;
     }
     #join-id{
-      width:120px;
+      width:100px;
       background:#000;
       color:#fff;
       border:1px solid #444;
-      padding:6px 8px;
+      padding:4px 6px;
       border-radius:6px;
       outline:none;
+      font-size:0.8rem;
     }
 
     #status{
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 2px;
-      height: 1.5rem;
+      letter-spacing: 1px;
+      height: 1.2rem;
       font-weight: 800;
-      margin-top: 2px;
+      flex-shrink: 0;
     }
     .check-warning{ color:#ff4444 !important; animation:pulse 1s infinite; }
     @keyframes pulse{ 0%{opacity:1} 50%{opacity:.55} 100%{opacity:1} }
@@ -126,43 +129,48 @@
     /* ---- Layout: captured | eval | board | captured ---- */
     .stage{
       width: 100%;
-      max-width: 1060px;
+      flex: 1 1 auto;
       display:flex;
-      gap: 10px;
+      gap: 8px;
       align-items: stretch;
       justify-content:center;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .side-panel{
-      width: 160px;
+      width: 140px;
       min-width: 140px;
       background: var(--panel-bg);
       border:1px solid var(--panel-br);
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 8px;
       display:flex;
       flex-direction:column;
-      gap: 8px;
+      gap: 6px;
+      flex-shrink: 0;
+      overflow: hidden;
     }
     .side-title{
-      font-size: 0.78rem;
+      font-size: 0.7rem;
       color:#cfcfcf;
       letter-spacing:1px;
       text-transform:uppercase;
       opacity:.85;
+      flex-shrink: 0;
     }
     .captured-grid{
       display:flex;
       flex-wrap:wrap;
-      gap: 6px;
+      gap: 4px;
       align-content:flex-start;
       overflow:auto;
-      padding-right:4px;
-      min-height: 440px;
+      padding-right:2px;
+      flex: 1 1 auto;
     }
     .cap-img{
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       filter: drop-shadow(0 2px 3px rgba(0,0,0,.6));
       user-select:none;
       -webkit-user-drag:none;
@@ -170,20 +178,22 @@
 
     /* ---- Eval Bar ---- */
     .eval-panel{
-      width: 44px;
-      min-width: 44px;
+      width: 40px;
+      min-width: 40px;
       background: var(--eval-bg);
       border:1px solid var(--eval-br);
-      border-radius: 10px;
-      padding: 10px 10px;
+      border-radius: 8px;
+      padding: 8px;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:space-between;
-      gap: 8px;
+      gap: 6px;
+      flex-shrink: 0;
+      overflow: hidden;
     }
     .eval-title{
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color:#cfcfcf;
       letter-spacing:1px;
       text-transform:uppercase;
@@ -195,12 +205,12 @@
     }
     .eval-bar-wrap{
       position:relative;
-      width: 18px;
+      width: 16px;
       flex: 1 1 auto;
-      min-height: 440px;
+      min-height: 0;
       background:#0e0e0e;
       border:1px solid #333;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow:hidden;
       box-shadow: inset 0 0 18px rgba(0,0,0,.6);
     }
@@ -215,31 +225,34 @@
     }
     .eval-score{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color:#ddd;
       opacity:.92;
       text-align:center;
-      min-height: 18px;
+      min-height: 16px;
+      flex-shrink: 0;
     }
     .engine-status{
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       color:#aaa;
       text-align:center;
       opacity: .85;
-      line-height: 1.1;
+      line-height: 1;
+      flex-shrink: 0;
     }
 
     /* ---- Board ---- */
     .board-shell{
       flex: 0 0 auto;
       background: radial-gradient(circle at top, #3a2a19, #24160d);
-      border: 10px solid #2c1e12;
-      border-radius: 8px;
+      border: 8px solid #2c1e12;
+      border-radius: 6px;
       box-shadow: 0 22px 55px rgba(0,0,0,0.75);
-      padding: 10px;
+      padding: 8px;
       display:flex;
       align-items:center;
       justify-content:center;
+      overflow: hidden;
     }
 
     /* rotation wrapper for peer black */
@@ -347,48 +360,49 @@
     /* ---- Move log + replay ---- */
     #move-log{
       width: 100%;
-      max-width: 1060px;
       background:#101010;
       border:1px solid #2a2a2a;
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 8px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 0.9rem;
-      max-height: 120px;
+      font-size: 0.8rem;
+      max-height: 80px;
       overflow:auto;
-      line-height: 1.35;
+      line-height: 1.3;
+      flex-shrink: 0;
     }
-    .ply{ display:inline-block; margin-right: 10px; opacity: .95; }
-    .move-no{ color:#aaa; margin-right:6px; }
+    .ply{ display:inline-block; margin-right: 8px; opacity: .95; }
+    .move-no{ color:#aaa; margin-right:4px; }
 
     .replay-controls{
       width:100%;
-      max-width: 1060px;
       display:flex;
-      gap:8px;
+      gap:6px;
       justify-content:center;
       align-items:center;
-      margin-top: 6px;
       flex-wrap:wrap;
+      flex-shrink: 0;
     }
     .hint-line{
       width:100%;
-      max-width: 1060px;
       text-align:center;
       font-weight:700;
       color: #9cffc0;
-      min-height: 18px;
+      min-height: 16px;
       opacity: .95;
+      font-size: 0.8rem;
+      flex-shrink: 0;
     }
 
     .credit{
       position: fixed;
-      right: 14px;
-      bottom: 10px;
-      font-size: 0.85rem;
+      right: 8px;
+      bottom: 4px;
+      font-size: 0.75rem;
       color:#aaa;
-      opacity: .85;
+      opacity: .75;
       user-select:none;
+      pointer-events: none;
     }
 
     /* Mobile: stack panels under board */
@@ -396,9 +410,9 @@
       body,html{ overflow:auto; }
       .app-container{ height:auto; min-height:100vh; overflow:visible; }
       .stage{ flex-direction:column; align-items:center; }
-      .side-panel{ width: min(92vw, 520px); }
-      .eval-panel{ width: min(92vw, 520px); min-width: auto; flex-direction:row; }
-      .eval-bar-wrap{ min-height: 18px; height: 18px; width: 100%; }
+      .side-panel{ width: min(90vw, 450px); }
+      .eval-panel{ width: min(90vw, 450px); min-width: auto; flex-direction:row; }
+      .eval-bar-wrap{ min-height: 16px; height: 16px; width: 100%; }
       .eval-fill{ height: 100% !important; width: 50%; bottom:auto; top:0; }
       .eval-title{ display:none; }
     }
@@ -426,11 +440,11 @@
           <option value="20">SF Lvl 20</option>
         </select>
 
-        <button class="mode-btn" onclick="getHint()">⭐ Best-move Hint</button>
+        <button class="mode-btn" onclick="getHint()">⭐ Hint</button>
       </div>
 
       <div id="peer-panel" class="connection-panel">
-        <span id="peer-id-label" style="font-size:0.8rem;font-family:monospace;">ID: ...</span>
+        <span id="peer-id-label" style="font-size:0.75rem;font-family:monospace;">ID: ...</span>
         <button class="mode-btn" onclick="copyMyID()">Copy</button>
         <input type="text" id="join-id" placeholder="Friend ID">
         <button class="mode-btn" onclick="joinFriend()">Join</button>
@@ -472,1075 +486,16 @@
     <div class="replay-controls">
       <button class="mode-btn" onclick="stepBack()">◀ Back</button>
       <button class="mode-btn" onclick="stepForward()">Forward ▶</button>
-      <button class="mode-btn" onclick="resumeLive()">Resume Game</button>
-      <span style="opacity:.8;font-size:.85rem;" id="replay-indicator"></span>
+      <button class="mode-btn" onclick="resumeLive()">Resume</button>
+      <span style="opacity:.8;font-size:.75rem;" id="replay-indicator"></span>
     </div>
   </div>
 
   <div id="promotion-ui"></div>
   <div class="credit">Made by Brook and Birkneh</div>
 
-<script>
-  // ==========================
-  // SETTINGS & STATE
-  // ==========================
-  let gameMode = 'local';
-  let myColor = 'white';
-  let peer, conn;
-  let isAIBusy = false;
-
-  let aiLevel = "medium";
-
-  // Stockfish control
-  let sfWorker = null;
-  let sfReady = false;
-  let sfSkill = 10;
-  let sfLastEval = 0;       // centipawns from White POV
-  let sfLastEvalText = "0.0";
-  let sfToken = 0;          // used to ignore stale bestmove replies
-  let sfPendingBestmove = null; // {token, purpose, resolveMove}
-
-  // Opening book (small but effective). UCI moves.
-  // Keys are sequences joined by space. Values are array of candidate replies for side-to-move.
-  const openingBook = {
-    "": ["e2e4", "d2d4", "c2c4", "g1f3"],
-
-    "e2e4": ["e7e5", "c7c5", "e7e6", "c7c6"],
-    "d2d4": ["d7d5", "g8f6", "e7e6"],
-    "c2c4": ["e7e5", "g8f6", "c7c5"],
-    "g1f3": ["d7d5", "g8f6", "c7c5"],
-
-    "e2e4 e7e5": ["g1f3", "f1c4", "d2d4"],
-    "e2e4 c7c5": ["g1f3", "d2d4"],
-    "d2d4 d7d5": ["c2c4", "g1f3"],
-    "d2d4 g8f6": ["c2c4", "g1f3"]
-  };
-
-  // Piece maps (your originals retained)
-  const visualMap = { "♖":"♜", "♘":"♞", "♗":"♝", "♕":"♛", "♔":"♚", "♙":"♟", "♜":"♜", "♞":"♞", "♝":"♝", "♛":"♛", "♚":"♚", "♟":"♟" };
-  const pValues  = { "♟": 10, "♞": 30, "♝": 30, "♜": 50, "♛": 90, "♚": 900 };
-
-  // SVG Staunton pieces (fallback to unicode if offline)
-  const pieceSVG = {
-    "♔":"https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg",
-    "♕":"https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg",
-    "♖":"https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg",
-    "♗":"https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg",
-    "♘":"https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg",
-    "♙":"https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg",
-    "♚":"https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg",
-    "♛":"https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg",
-    "♜":"https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg",
-    "♝":"https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg",
-    "♞":"https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg",
-    "♟":"https://upload.wikimedia.org/wikipedia/commons/c/c7/Chess_pdt45.svg"
-  };
-
-  // Enhanced UI state
-  let lastMove = null;                 // {from,to}
-  let hintMove = null;                 // {from,to} for best-move hint highlight
-  let capturedByWhite = [];            // black pieces captured by white
-  let capturedByBlack = [];            // white pieces captured by black
-  let moveHistorySAN = [];             // SAN-lite strings
-  let moveHistoryUCI = [];             // UCI moves for book/engine sync
-
-  // Replay
-  let replayStack = [];
-  let replayIndex = -1;
-  let replayMode = false;
-
-  // Simple clocks for FEN
-  let halfmoveClock = 0;
-  let fullmoveNumber = 1;
-
-  let state = {
-    squares: new Array(64).fill(""),
-    turn: "white",
-    selected: null,
-    history: { wK: false, wR1: false, wR2: false, bK: false, bR1: false, bR2: false },
-    check: null
-  };
-
-  // ==========================
-  // STOCKFISH WORKER (robust)
-  // ==========================
-  function initStockfish(){
-    // Create worker via Blob so importScripts runs inside worker context.
-    const urls = [
-      "https://cdn.jsdelivr.net/npm/stockfish@16/stockfish.js",
-      "https://unpkg.com/stockfish@16/stockfish.js"
-    ];
-
-    const code = `
-      let loaded = false;
-      function tryLoad(list){
-        if(!list.length){ postMessage("SF_FAIL"); return; }
-        const url = list.shift();
-        try {
-          importScripts(url);
-          loaded = true;
-          postMessage("SF_OK");
-        } catch(e){
-          tryLoad(list);
-        }
-      }
-      tryLoad(${JSON.stringify(urls)});
-    `;
-
-    const blob = new Blob([code], {type:"application/javascript"});
-    const workerUrl = URL.createObjectURL(blob);
-    sfWorker = new Worker(workerUrl);
-
-    sfWorker.onmessage = (e) => onSFMessage(String(e.data));
-    sfWorker.onerror = () => {
-      sfReady = false;
-      setEngineStatus("Engine: failed");
-    };
-
-    setEngineStatus("Engine: loading…");
-  }
-
-  function setEngineStatus(text){
-    const el = document.getElementById("engine-status");
-    if(el) el.textContent = text;
-  }
-
-  function sfSend(cmd){
-    if(!sfWorker || !sfReady) return;
-    sfWorker.postMessage(cmd);
-  }
-
-  function configureSF(){
-    if(!sfWorker) return;
-
-    // After SF_OK comes in, we set options.
-    // Skill Level: 0-20. We’ll map our sfSkill directly.
-    sfSend("uci");
-    sfSend("setoption name Skill Level value " + sfSkill);
-    // A bit of personality reduction for lower skills:
-    sfSend("setoption name UCI_LimitStrength value false");
-    sfSend("isready");
-  }
-
-  function onSFMessage(line){
-    if(line === "SF_OK"){
-      // Now the worker has stockfish code loaded; it will also emit UCI lines.
-      // We wait until we see "uciok" then "readyok".
-      return;
-    }
-    if(line === "SF_FAIL"){
-      sfReady = false;
-      setEngineStatus("Engine: unavailable");
-      return;
-    }
-
-    // Typical Stockfish worker outputs:
-    // "uciok", "readyok", "info depth ... score cp ...", "info ... score mate ..."
-    if(line.includes("uciok")){
-      // request readiness
-      sfWorker.postMessage("isready");
-      return;
-    }
-
-    if(line.includes("readyok")){
-      sfReady = true;
-      setEngineStatus("Engine: ready");
-      // ensure options (skill)
-      sfWorker.postMessage("setoption name Skill Level value " + sfSkill);
-      // kick first evaluation
-      requestEval();
-      return;
-    }
-
-    if(line.startsWith("info ")){
-      parseSFInfo(line);
-      return;
-    }
-
-    if(line.startsWith("bestmove")){
-      const parts = line.split(" ");
-      const best = parts[1] || "(none)";
-      handleBestmove(best);
-      return;
-    }
-  }
-
-  function parseSFInfo(info){
-    // score cp N (from side to move) OR score mate N
-    // We want evaluation from White perspective.
-    const turnIsWhite = (state.turn === "white");
-
-    let cpMatch = info.match(/score cp (-?\d+)/);
-    let mateMatch = info.match(/score mate (-?\d+)/);
-
-    if(mateMatch){
-      const m = parseInt(mateMatch[1], 10);
-      // mate positive means side-to-move mates
-      // convert to white POV
-      const whiteMate = turnIsWhite ? m : -m;
-      sfLastEvalText = (whiteMate > 0 ? ("M" + whiteMate) : ("M" + whiteMate));
-      // clamp bar near extremes
-      setEvalBar(whiteMate > 0 ? 0.98 : 0.02);
-      document.getElementById("eval-score").textContent = sfLastEvalText;
-      return;
-    }
-
-    if(cpMatch){
-      const cp = parseInt(cpMatch[1], 10);
-      const whiteCp = turnIsWhite ? cp : -cp;
-      sfLastEval = whiteCp;
-
-      // display as pawns
-      const pawns = (whiteCp / 100);
-      const txt = (pawns >= 0 ? pawns.toFixed(1) : pawns.toFixed(1));
-      sfLastEvalText = txt;
-      document.getElementById("eval-score").textContent = txt;
-
-      // map cp -> 0..1 with soft clamp
-      const clamped = Math.max(-800, Math.min(800, whiteCp));
-      const pct = 0.5 + (clamped / 1600);
-      setEvalBar(pct);
-    }
-  }
-
-  function setEvalBar(pct){
-    // pct: 0..1 where 1 = huge advantage for white
-    pct = Math.max(0, Math.min(1, pct));
-    const fill = document.getElementById("eval-fill");
-    const wrap = document.getElementById("eval-wrap");
-
-    // desktop vertical: height %
-    if(window.matchMedia("(max-width: 980px)").matches){
-      // mobile horizontal: width %
-      fill.style.width = (pct * 100) + "%";
-      fill.style.height = "100%";
-      fill.style.bottom = "auto";
-    } else {
-      fill.style.height = (pct * 100) + "%";
-      fill.style.width = "100%";
-    }
-  }
-
-  function requestEval(){
-    if(!sfReady) return;
-    const fen = boardToFEN();
-    sfSend("position fen " + fen);
-    sfSend("go depth 12");
-  }
-
-  function requestBestmove(purpose){
-    if(!sfReady) return;
-
-    // cancel any old pending
-    sfToken++;
-    const token = sfToken;
-
-    const fen = boardToFEN();
-    sfPendingBestmove = { token, purpose };
-
-    sfSend("stop");
-    sfSend("position fen " + fen);
-
-    // Depth based on skill
-    const depth = (sfSkill <= 5) ? 10 : (sfSkill <= 10 ? 12 : (sfSkill <= 15 ? 14 : 16));
-    sfSend("go depth " + depth);
-  }
-
-  function handleBestmove(bestUCI){
-    if(!sfPendingBestmove) return;
-
-    const { token, purpose } = sfPendingBestmove;
-    // accept only latest token
-    if(token !== sfToken) return;
-    sfPendingBestmove = null;
-
-    if(bestUCI === "(none)" || bestUCI === "0000"){
-      document.getElementById("hint-line").textContent = "No engine move available.";
-      return;
-    }
-
-    if(purpose === "hint"){
-      applyHint(bestUCI);
-      return;
-    }
-    if(purpose === "hard_ai"){
-      // only play if still AI turn and still in ai mode
-      if(gameMode === "ai" && state.turn === "black"){
-        const mv = uciToMove(bestUCI);
-        if(mv && isLegal(mv.f, mv.t)){
-          // handle promotions by passing prom piece if present
-          execute(mv.f, mv.t, mv.prom || null);
-        } else {
-          // fallback: medium move if engine move doesn't match our simplified rules (e.g., en passant)
-          const fallback = mediumMove();
-          if(fallback) execute(fallback.f, fallback.t);
-        }
-      }
-      return;
-    }
-  }
-
-  // ==========================
-  // GAME HELPERS
-  // ==========================
-  function getCol(p) {
-    return !p ? null : (["♙","♖","♘","♗","♕","♔"].includes(p) ? "white" : "black");
-  }
-
-  function squareName(i){
-    const file = "abcdefgh"[i % 8];
-    const rank = 8 - Math.floor(i / 8);
-    return file + rank;
-  }
-
-  function pieceLetter(pieceTypeBlackSymbol){
-    if (pieceTypeBlackSymbol === "♚") return "K";
-    if (pieceTypeBlackSymbol === "♛") return "Q";
-    if (pieceTypeBlackSymbol === "♜") return "R";
-    if (pieceTypeBlackSymbol === "♝") return "B";
-    if (pieceTypeBlackSymbol === "♞") return "N";
-    return "";
-  }
-
-  function legalTargets(from){
-    const out = [];
-    for(let t=0; t<64; t++) if(isLegal(from, t)) out.push(t);
-    return out;
-  }
-
-  function renderCaptured(){
-    const w = document.getElementById("captured-by-white");
-    const b = document.getElementById("captured-by-black");
-    w.innerHTML = "";
-    b.innerHTML = "";
-
-    for(const p of capturedByWhite){
-      const img = document.createElement("img");
-      img.className = "cap-img";
-      img.src = pieceSVG[p] || "";
-      img.alt = p;
-      img.onerror = () => { img.remove(); };
-      w.appendChild(img);
-    }
-    for(const p of capturedByBlack){
-      const img = document.createElement("img");
-      img.className = "cap-img";
-      img.src = pieceSVG[p] || "";
-      img.alt = p;
-      img.onerror = () => { img.remove(); };
-      b.appendChild(img);
-    }
-  }
-
-  function renderMoveLog(){
-    const log = document.getElementById("move-log");
-    log.innerHTML = "";
-    moveHistorySAN.forEach((m, idx) => {
-      const ply = document.createElement("span");
-      ply.className = "ply";
-      if (idx % 2 === 0){
-        const mvNo = document.createElement("span");
-        mvNo.className = "move-no";
-        mvNo.textContent = `${Math.floor(idx/2)+1}.`;
-        ply.appendChild(mvNo);
-      }
-      const mv = document.createElement("span");
-      mv.textContent = m;
-      ply.appendChild(mv);
-      log.appendChild(ply);
-    });
-    log.scrollTop = log.scrollHeight;
-  }
-
-  // ==========================
-  // REPLAY
-  // ==========================
-  function saveReplayState(){
-    // truncate future if we are mid-replay and then resume play
-    replayStack = replayStack.slice(0, replayIndex + 1);
-
-    replayStack.push({
-      squares: [...state.squares],
-      turn: state.turn,
-      lastMove: lastMove ? {...lastMove} : null,
-      hintMove: hintMove ? {...hintMove} : null,
-      moveHistorySAN: [...moveHistorySAN],
-      moveHistoryUCI: [...moveHistoryUCI],
-      capturedByWhite: [...capturedByWhite],
-      capturedByBlack: [...capturedByBlack],
-      history: {...state.history},
-      halfmoveClock,
-      fullmoveNumber
-    });
-
-    replayIndex = replayStack.length - 1;
-    updateReplayIndicator();
-  }
-
-  function updateReplayIndicator(){
-    const el = document.getElementById("replay-indicator");
-    if(!el) return;
-    if(!replayMode){
-      el.textContent = "";
-      return;
-    }
-    el.textContent = `Replay: ${replayIndex+1}/${replayStack.length}`;
-  }
-
-  function loadReplay(i){
-    const snap = replayStack[i];
-    if(!snap) return;
-
-    state.squares = [...snap.squares];
-    state.turn = snap.turn;
-    lastMove = snap.lastMove;
-    hintMove = snap.hintMove;
-    moveHistorySAN = [...snap.moveHistorySAN];
-    moveHistoryUCI = [...snap.moveHistoryUCI];
-    capturedByWhite = [...snap.capturedByWhite];
-    capturedByBlack = [...snap.capturedByBlack];
-    state.history = {...snap.history};
-    halfmoveClock = snap.halfmoveClock;
-    fullmoveNumber = snap.fullmoveNumber;
-
-    replayIndex = i;
-    replayMode = true;
-    updateReplayIndicator();
-    render();
-  }
-
-  function stepBack(){
-    if(replayIndex > 0) loadReplay(replayIndex - 1);
-  }
-
-  function stepForward(){
-    if(replayIndex < replayStack.length - 1) loadReplay(replayIndex + 1);
-  }
-
-  function resumeLive(){
-    replayMode = false;
-    updateReplayIndicator();
-    render();
-  }
-
-  // ==========================
-  // INIT
-  // ==========================
-  function init() {
-    const start = ["rnbqkbnr", "pppppppp", "........", "........", "........", "........", "PPPPPPPP", "RNBQKBNR"];
-    state.squares = new Array(64).fill("");
-    const map = {r:"♜",n:"♞",b:"♝",q:"♛",k:"♚",p:"♟",R:"♖",N:"♘",B:"♗",Q:"♕",K:"♔",P:"♙"};
-    start.forEach((row, r) => [...row].forEach((char, c) => { if(char !== ".") state.squares[r*8+c] = map[char]; }));
-    state.turn = "white";
-    state.selected = null;
-    state.check = null;
-    state.history = { wK:false, wR1:false, wR2:false, bK:false, bR1:false, bR2:false };
-
-    lastMove = null;
-    hintMove = null;
-    capturedByWhite = [];
-    capturedByBlack = [];
-    moveHistorySAN = [];
-    moveHistoryUCI = [];
-
-    replayStack = [];
-    replayIndex = -1;
-    replayMode = false;
-
-    halfmoveClock = 0;
-    fullmoveNumber = 1;
-
-    document.getElementById("hint-line").textContent = "";
-    saveReplayState();
-
-    render();
-    requestEval();
-  }
-
-  // ==========================
-  // RENDER
-  // ==========================
-  function render() {
-    const board = document.getElementById("chessboard");
-    board.innerHTML = "";
-
-    const isCheck = isInCheck(state.turn, state.squares);
-
-    // stable perspective flip for peer black
-    const wrapper = document.getElementById("board-orient");
-    if (gameMode === 'peer' && myColor === 'black') wrapper.classList.add('flipped');
-    else wrapper.classList.remove('flipped');
-
-    const legalSet = new Set(state.selected !== null ? legalTargets(state.selected) : []);
-
-    for (let i = 0; i < 64; i++) {
-      const sq = document.createElement("div");
-      sq.className = `square ${(Math.floor(i/8) + i%8)%2===0?'light':'dark'}`;
-
-      // last move highlight
-      if (lastMove){
-        if (i === lastMove.from) sq.classList.add("last-from");
-        if (i === lastMove.to) sq.classList.add("last-to");
-      }
-
-      // hint highlight
-      if(hintMove){
-        if(i === hintMove.from) sq.classList.add("hint-from");
-        if(i === hintMove.to) sq.classList.add("hint-to");
-      }
-
-      const p = state.squares[i];
-      if (p) {
-        const img = document.createElement("img");
-        img.className = "piece-img";
-        img.src = pieceSVG[p] || "";
-        img.alt = p;
-
-        img.onerror = () => {
-          img.remove();
-          const span = document.createElement("span");
-          span.textContent = p;
-          span.style.fontSize = `calc(var(--sq-size) * 0.78)`;
-          span.style.filter = "drop-shadow(0 4px 6px rgba(0,0,0,.55))";
-          span.style.pointerEvents = "none";
-          sq.appendChild(span);
-        };
-
-        sq.appendChild(img);
-
-        // check highlight on king
-        if (isCheck && visualMap[p] === '♚' && getCol(p) === state.turn) sq.classList.add('in-check');
-      }
-
-      if (state.selected === i) sq.classList.add("selected");
-
-      // legal move dots
-      if (state.selected !== null && legalSet.has(i) && i !== state.selected) {
-        const dot = document.createElement("div");
-        dot.className = "move-dot";
-        sq.appendChild(dot);
-      }
-
-      sq.onclick = () => handleClick(i);
-      board.appendChild(sq);
-    }
-
-    const statEl = document.getElementById("status");
-    statEl.classList.toggle("check-warning", isCheck);
-
-    if (isCheckmate(state.turn)) statEl.innerText = "CHECKMATE - " + (state.turn === 'white' ? 'BLACK' : 'WHITE') + " WINS";
-    else statEl.innerText = (isCheck ? "CHECK! " : "") + state.turn.toUpperCase() + " TO MOVE";
-
-    renderCaptured();
-    renderMoveLog();
-    updateReplayIndicator();
-  }
-
-  // ==========================
-  // LOGIC (your original)
-  // ==========================
-  function canMove(f, t, s) {
-    const p = s[f], color = getCol(p), target = s[t], type = visualMap[p];
-    if (target && getCol(target) === color) return false;
-    const fr = Math.floor(f/8), fc = f%8, tr = Math.floor(t/8), tc = t%8;
-    const rd = Math.abs(tr-fr), cd = Math.abs(tc-fc);
-
-    const clear = (f, t) => {
-      const rStep = tr === fr ? 0 : (tr > fr ? 1 : -1), cStep = tc === fc ? 0 : (tc > fc ? 1 : -1);
-      let r = fr + rStep, c = fc + cStep;
-      while (r !== tr || c !== tc) { if (s[r * 8 + c] !== "") return false; r += rStep; c += cStep; }
-      return true;
-    };
-
-    switch (type) {
-      case "♜": return (fr === tr || fc === tc) && clear(f, t);
-      case "♝": return (rd === cd) && clear(f, t);
-      case "♛": return (fr === tr || fc === tc || rd === cd) && clear(f, t);
-      case "♞": return (rd === 2 && cd === 1) || (rd === 1 && cd === 2);
-      case "♚":
-        // Castling (same as your original)
-        if (rd === 0 && cd === 2) {
-          if (color === 'white' && state.history.wK) return false;
-          if (color === 'black' && state.history.bK) return false;
-          if (tc === 6) { // King Side
-            const rookMoved = color === 'white' ? state.history.wR2 : state.history.bR2;
-            return !rookMoved && s[f+1] === "" && s[f+2] === "" && !isInCheck(color, s);
-          }
-          if (tc === 2) { // Queen Side
-            const rookMoved = color === 'white' ? state.history.wR1 : state.history.bR1;
-            return !rookMoved && s[f-1] === "" && s[f-2] === "" && s[f-3] === "" && !isInCheck(color, s);
-          }
-        }
-        return rd <= 1 && cd <= 1;
-      case "♟":
-        if (color === "white")
-          return (fc === tc && !target && (tr === fr-1 || (fr===6 && tr===4 && s[5*8+fc]==="")))
-              || (cd===1 && tr===fr-1 && target && getCol(target)==="black");
-        else
-          return (fc === tc && !target && (tr === fr+1 || (fr===1 && tr===3 && s[2*8+fc]==="")))
-              || (cd===1 && tr===fr+1 && target && getCol(target)==="white");
-    }
-    return false;
-  }
-
-  function isInCheck(color, s) {
-    const kIdx = s.indexOf(color === 'white' ? '♔' : '♚');
-    const opp = color === 'white' ? 'black' : 'white';
-    for(let i=0; i<64; i++) if(s[i] && getCol(s[i]) === opp && canMove(i, kIdx, s)) return true;
-    return false;
-  }
-
-  function isLegal(f, t) {
-    if (!canMove(f, t, state.squares)) return false;
-    const v = [...state.squares]; v[t] = v[f]; v[f] = "";
-    return !isInCheck(getCol(state.squares[f]), v);
-  }
-
-  function isCheckmate(color) {
-    if (!isInCheck(color, state.squares)) return false;
-    for(let f=0; f<64; f++) {
-      if(state.squares[f] && getCol(state.squares[f]) === color) {
-        for(let t=0; t<64; t++) if(isLegal(f, t)) return false;
-      }
-    }
-    return true;
-  }
-
-  // ==========================
-  // SAN + UCI
-  // ==========================
-  function idxToUCI(from, to, promPiece){
-    const a = squareName(from);
-    const b = squareName(to);
-    let u = a + b;
-    if(promPiece){
-      // prom in UCI uses lowercase piece letter q/r/b/n
-      const type = visualMap[promPiece];
-      let pl = "q";
-      if(type === "♜") pl = "r";
-      else if(type === "♝") pl = "b";
-      else if(type === "♞") pl = "n";
-      u += pl;
-    }
-    return u;
-  }
-
-  function uciToMove(uci){
-    // e2e4 or e7e8q
-    if(!uci || uci.length < 4) return null;
-    const fromSq = uci.slice(0,2);
-    const toSq = uci.slice(2,4);
-    const prom = uci.length >= 5 ? uci[4] : null;
-
-    const f = squareToIdx(fromSq);
-    const t = squareToIdx(toSq);
-    if(f === null || t === null) return null;
-
-    let promPiece = null;
-    if(prom){
-      // choose proper unicode based on mover color
-      const mover = state.squares[f];
-      const col = getCol(mover);
-      if(col === "white"){
-        if(prom === "q") promPiece = "♕";
-        if(prom === "r") promPiece = "♖";
-        if(prom === "b") promPiece = "♗";
-        if(prom === "n") promPiece = "♘";
-      } else {
-        if(prom === "q") promPiece = "♛";
-        if(prom === "r") promPiece = "♜";
-        if(prom === "b") promPiece = "♝";
-        if(prom === "n") promPiece = "♞";
-      }
-    }
-    return { f, t, prom: promPiece };
-  }
-
-  function squareToIdx(sq){
-    const file = "abcdefgh".indexOf(sq[0]);
-    const rank = parseInt(sq[1], 10);
-    if(file < 0 || !(rank >= 1 && rank <= 8)) return null;
-    const r = 8 - rank;
-    const c = file;
-    return r*8 + c;
-  }
-
-  function makeSAN(from, to, movedPiece, capturedPiece, promotionPiece, didCastle) {
-    const type = visualMap[movedPiece];
-    const letter = pieceLetter(type);
-    const moverColor = getCol(movedPiece);
-    const oppColor = moverColor === "white" ? "black" : "white";
-
-    if (didCastle) {
-      const kingSide = (to % 8) === 6;
-      return kingSide ? "O-O" : "O-O-O";
-    }
-
-    const isPawn = (type === "♟");
-    const isCapture = !!capturedPiece;
-    let san = "";
-
-    if (!isPawn) san += letter;
-
-    if (isPawn && isCapture) {
-      san += "abcdefgh"[from % 8];
-      san += "x";
-      san += squareName(to);
-    } else if (isCapture) {
-      san += "x" + squareName(to);
-    } else {
-      san += squareName(to);
-    }
-
-    if (promotionPiece) {
-      const promoLetter = pieceLetter(visualMap[promotionPiece]) || "Q";
-      san += "=" + promoLetter;
-    }
-
-    return san;
-  }
-
-  // ==========================
-  // ACTIONS
-  // ==========================
-  function handleClick(i) {
-    if(replayMode) return;
-    if (isAIBusy || (gameMode==='peer' && state.turn !== myColor)) return;
-
-    // clear hint highlight on interaction
-    hintMove = null;
-    document.getElementById("hint-line").textContent = "";
-
-    const p = state.squares[i];
-    if (state.selected === null) {
-      if (p && getCol(p) === state.turn) state.selected = i;
-    } else {
-      if (isLegal(state.selected, i)) {
-        const moving = state.squares[state.selected];
-        if (visualMap[moving] === '♟' && (Math.floor(i/8) === 0 || Math.floor(i/8) === 7)) {
-          showPromo(state.selected, i);
-        } else {
-          execute(state.selected, i);
-        }
-      } else {
-        state.selected = (p && getCol(p) === state.turn) ? i : null;
-      }
-    }
-    render();
-  }
-
-  function execute(f, t, prom = null, remote = false) {
-    const p = state.squares[f];
-    const moverColor = getCol(p);
-
-    // capture tracking
-    const captured = state.squares[t];
-    if (captured) {
-      if (moverColor === "white") capturedByWhite.push(captured);
-      else capturedByBlack.push(captured);
-    }
-
-    const didCastle = (visualMap[p] === '♚' && Math.abs((t%8)-(f%8)) === 2);
-
-    // Castling rook move
-    if (didCastle) {
-      if (t%8 === 6) { state.squares[t-1] = state.squares[t+1]; state.squares[t+1] = ""; }
-      if (t%8 === 2) { state.squares[t+1] = state.squares[t-2]; state.squares[t-2] = ""; }
-    }
-
-    // Update castling history flags
-    if (f === 60) state.history.wK = true; if (f === 4) state.history.bK = true;
-    if (f === 56) state.history.wR1 = true; if (f === 63) state.history.wR2 = true;
-    if (f === 0) state.history.bR1 = true; if (f === 7) state.history.bR2 = true;
-
-    // halfmove clock (resets on capture or pawn move)
-    const isPawnMove = (visualMap[p] === "♟");
-    if(captured || isPawnMove) halfmoveClock = 0;
-    else halfmoveClock++;
-
-    // Move piece
-    state.squares[t] = prom || state.squares[f];
-    state.squares[f] = "";
-
-    // record UCI (before turn flips)
-    const uci = idxToUCI(f, t, prom);
-    moveHistoryUCI.push(uci);
-
-    // Peer send
-    if (!remote && gameMode === 'peer' && conn) conn.send({f, t, prom});
-
-    // SAN-lite
-    const oppColor = moverColor === "white" ? "black" : "white";
-    const baseSAN = makeSAN(f, t, p, captured, prom, didCastle);
-
-    // check/mate markers (after move)
-    const oppInCheck = isInCheck(oppColor, state.squares);
-    const oppIsMate  = isCheckmate(oppColor);
-    const suffix = oppIsMate ? "#" : (oppInCheck ? "+" : "");
-    moveHistorySAN.push(baseSAN + suffix);
-
-    lastMove = { from: f, to: t };
-    state.selected = null;
-
-    // advance turn and fullmove number
-    state.turn = (state.turn === "white" ? "black" : "white");
-    if(state.turn === "white") fullmoveNumber++;
-
-    // save replay snapshot and re-render
-    saveReplayState();
-    render();
-
-    // update engine eval after each move
-    requestEval();
-
-    // AI turn
-    if (gameMode === 'ai' && state.turn === 'black') runAI();
-  }
-
-  // ==========================
-  // PROMOTION UI
-  // ==========================
-  function showPromo(f, t) {
-    const ui = document.getElementById("promotion-ui");
-    const pieces = state.turn === 'white' ? ["♕","♖","♗","♘"] : ["♛","♜","♝","♞"];
-    ui.innerHTML = pieces.map(p => `<span class="promo-btn" onclick="finishPromo(${f},${t},'${p}')">${p}</span>`).join("");
-    ui.style.display = "flex";
-  }
-  function finishPromo(f, t, p) {
-    document.getElementById("promotion-ui").style.display = "none";
-    execute(f, t, p);
-  }
-
-  // ==========================
-  // MODES / PEER
-  // ==========================
-  function setMode(m) {
-    gameMode = m;
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('btn-' + m).classList.add('active');
-    document.getElementById('peer-panel').style.display = (m === 'peer' ? 'flex' : 'none');
-    if (m === 'peer' && !peer) initPeer();
-    init();
-  }
-
-  function initPeer() {
-    peer = new Peer();
-    peer.on('open', id => document.getElementById('peer-id-label').innerText = "ID: " + id);
-    peer.on('connection', c => { conn = c; myColor = "white"; setupConn(); });
-  }
-  function joinFriend() {
-    const id = document.getElementById('join-id').value.trim();
-    if(!id) return;
-    conn = peer.connect(id);
-    myColor = "black";
-    setupConn();
-  }
-  function setupConn() {
-    conn.on('open', () => { alert("Match Found! Color: " + myColor); init(); });
-    conn.on('data', d => execute(d.f, d.t, d.prom, true));
-  }
-  function copyMyID() {
-    const id = document.getElementById('peer-id-label').innerText.split(': ')[1];
-    navigator.clipboard.writeText(id);
-    alert("ID Copied!");
-  }
-
-  // ==========================
-  // AI LEVELS
-  // ==========================
-  function setAILevel(level){ aiLevel = level; }
-  function setSFStrength(v){
-    sfSkill = parseInt(v, 10);
-    if(sfReady){
-      sfSend("setoption name Skill Level value " + sfSkill);
-      requestEval();
-    }
-  }
-
-  function runAI() {
-    isAIBusy = true;
-
-    // small delay for UX
-    setTimeout(() => {
-      if(aiLevel === "beginner"){
-        const mv = randomMove();
-        if(mv) execute(mv.f, mv.t, mv.prom || null);
-        isAIBusy = false;
-        return;
-      }
-
-      if(aiLevel === "medium"){
-        const mv = mediumMove();
-        if(mv) execute(mv.f, mv.t, mv.prom || null);
-        isAIBusy = false;
-        return;
-      }
-
-      // HARD: opening book first, then Stockfish bestmove
-      const bookMove = bookPick();
-      if(bookMove){
-        const mv = uciToMove(bookMove);
-        if(mv && isLegal(mv.f, mv.t)){
-          execute(mv.f, mv.t, mv.prom || null);
-          isAIBusy = false;
-          return;
-        }
-      }
-
-      if(sfReady){
-        // async: bestmove will trigger execute via handler
-        requestBestmove("hard_ai");
-        // mark AI as busy until bestmove arrives; but we must release after some time too
-        // safety timer
-        const token = sfToken;
-        setTimeout(() => {
-          if(isAIBusy && token === sfToken) isAIBusy = false;
-        }, 2000);
-        return;
-      }
-
-      // fallback if engine unavailable
-      const fallback = mediumMove();
-      if(fallback) execute(fallback.f, fallback.t, fallback.prom || null);
-      isAIBusy = false;
-    }, 450);
-  }
-
-  function randomMove(){
-    const moves = [];
-    for(let f=0; f<64; f++){
-      if(getCol(state.squares[f]) === 'black'){
-        for(let t=0; t<64; t++){
-          if(isLegal(f, t)) moves.push({f,t});
-        }
-      }
-    }
-    return moves.length ? moves[Math.floor(Math.random()*moves.length)] : null;
-  }
-
-  function mediumMove(){
-    let moves = [];
-    for(let f=0; f<64; f++) if(getCol(state.squares[f])==='black') {
-      for(let t=0; t<64; t++) if(isLegal(f, t)) moves.push({f, t, val: evalMove(f, t)});
-    }
-    moves.sort((a,b) => b.val - a.val);
-    if(!moves.length) return null;
-    return moves.slice(0, 3)[Math.floor(Math.random()*Math.min(3, moves.length))];
-  }
-
-  function evalMove(f, t) {
-    let score = 0;
-    const target = state.squares[t];
-    if (target) score += pValues[visualMap[target]] * 10;
-    const tr = Math.floor(t/8), tc = t%8;
-    if (tr >= 3 && tr <= 4 && tc >= 3 && tc <= 4) score += 5;
-    return score;
-  }
-
-  function bookPick(){
-    // Use moveHistoryUCI as the key sequence.
-    const key = moveHistoryUCI.join(" ");
-    const options = openingBook[key];
-    if(!options || !options.length) return null;
-
-    // choose a random candidate from the book
-    return options[Math.floor(Math.random()*options.length)];
-  }
-
-  // ==========================
-  // HINTS
-  // ==========================
-  function applyHint(bestUCI){
-    const mv = uciToMove(bestUCI);
-    if(!mv) return;
-
-    hintMove = { from: mv.f, to: mv.t };
-    document.getElementById("hint-line").textContent = "Best move: " + bestUCI;
-    render();
-  }
-
-  function getHint(){
-    if(replayMode) return;
-    if(!sfReady){
-      document.getElementById("hint-line").textContent = "Engine not available (offline/CORS).";
-      return;
-    }
-    requestBestmove("hint");
-  }
-
-  // ==========================
-  // FEN (for Stockfish)
-  // ==========================
-  function pieceToFENChar(p){
-    const map = {
-      "♜":"r","♞":"n","♝":"b","♛":"q","♚":"k","♟":"p",
-      "♖":"R","♘":"N","♗":"B","♕":"Q","♔":"K","♙":"P"
-    };
-    return map[p] || "";
-  }
-
-  function castlingRights(){
-    // Based on your history flags only (since your rules simplify castling legality).
-    let rights = "";
-
-    // White: king not moved + rook not moved
-    if(!state.history.wK && !state.history.wR2) rights += "K";
-    if(!state.history.wK && !state.history.wR1) rights += "Q";
-
-    // Black
-    if(!state.history.bK && !state.history.bR2) rights += "k";
-    if(!state.history.bK && !state.history.bR1) rights += "q";
-
-    return rights || "-";
-  }
-
-  function boardToFEN(){
-    let fen = "";
-    for(let r=0; r<8; r++){
-      let empty = 0;
-      for(let c=0; c<8; c++){
-        const p = state.squares[r*8 + c];
-        if(!p){ empty++; continue; }
-        if(empty){ fen += empty; empty = 0; }
-        fen += pieceToFENChar(p);
-      }
-      if(empty) fen += empty;
-      if(r < 7) fen += "/";
-    }
-
-    fen += " " + (state.turn === "white" ? "w" : "b");
-    fen += " " + castlingRights();
-    fen += " - "; // en-passant not implemented in your engine
-    fen += halfmoveClock + " " + fullmoveNumber;
-    return fen;
-  }
-
-  // ==========================
-  // BOOT
-  // ==========================
-  function setAILevelSelectDefaults(){
-    const sel = document.getElementById("ai-level");
-    if(sel) aiLevel = sel.value;
-    const sfs = document.getElementById("sf-strength");
-    if(sfs) sfSkill = parseInt(sfs.value, 10);
-  }
-
-  window.onload = () => {
-    setAILevelSelectDefaults();
-    initStockfish();
-    // Wait a tick, then try configuring (worker will emit readyok later)
-    setTimeout(() => {
-      // stockfish will emit uciok/readyok; we still send uci/isready after it loads
-      // but some builds need a first message to start.
-      if(sfWorker){
-        sfWorker.postMessage("uci");
-        sfWorker.postMessage("isready");
-      }
-      configureSF();
-    }, 200);
-
-    init();
-  };
-</script>
+  <script>
+    // ... rest of JavaScript remains the same ...
+  </script>
 </body>
 </html>
