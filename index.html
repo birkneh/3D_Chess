@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Grandmaster Elite | Pro Edition</title>
+  <title>Grandmaster Elite | Pro v3.0</title>
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <style>
     :root {
@@ -12,7 +12,7 @@
       --light-sq: #f0d9b5;
       --dark-sq: #b58863;
       --highlight: rgba(255, 235, 59, 0.4);
-      --hint: rgba(0, 0, 0, 0.15);
+      --check: rgba(255, 0, 0, 0.6);
       --sq-size: clamp(40px, 8vh, 65px); 
     }
 
@@ -22,41 +22,40 @@
     .app-container { display: flex; flex-direction: column; width: 100vw; height: 100vh; padding: 1vh; align-items: center; }
 
     .control-center {
-      background: #1a1a1a;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      border: 1px solid #333;
-      width: 100%;
-      max-width: 650px;
+      background: #1a1a1a; padding: 12px; border-radius: 12px; margin-bottom: 10px;
+      display: flex; flex-direction: column; gap: 8px; border: 1px solid #333; width: 100%; max-width: 650px;
     }
 
-    .mode-selector { display: flex; justify-content: center; gap: 10px; }
-    .mode-btn { background: #333; color: #fff; border: 1px solid #444; padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 0.85rem; }
-    .mode-btn.active { background: var(--accent); color: #000; font-weight: bold; border-color: var(--accent); }
+    .mode-selector { display: flex; justify-content: center; gap: 8px; }
+    .mode-btn { background: #333; color: #fff; border: 1px solid #444; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+    .mode-btn.active { background: var(--accent); color: #000; font-weight: bold; }
 
-    .connection-panel { display: none; justify-content: center; gap: 8px; align-items: center; background: #222; padding: 10px; border-radius: 8px; border: 1px solid #444; }
+    .connection-panel { display: none; justify-content: center; gap: 8px; align-items: center; background: #222; padding: 8px; border-radius: 8px; }
 
-    #status { font-size: 1rem; color: var(--accent); margin: 10px 0; text-transform: uppercase; letter-spacing: 2px; height: 1.5rem; }
+    #status { font-size: 1.1rem; color: var(--accent); margin: 10px 0; text-transform: uppercase; letter-spacing: 2px; height: 1.5rem; font-weight: bold; }
+    .check-warning { color: #ff4444 !important; animation: pulse 1s infinite; }
 
-    .board-wrapper { border: 10px solid #2c1e12; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+    /* The Board Container - Handles Rotation */
+    .board-wrapper { border: 10px solid #2c1e12; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); transition: transform 0.6s ease; }
     #chessboard { display: grid; grid-template-columns: repeat(8, var(--sq-size)); grid-template-rows: repeat(8, var(--sq-size)); }
     
     .square { width: var(--sq-size); height: var(--sq-size); display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .light { background-color: var(--light-sq); }
     .dark { background-color: var(--dark-sq); }
     .selected { background-color: var(--highlight) !important; }
-    .move-hint::after { content: ""; width: 25%; height: 25%; background: var(--hint); border-radius: 50%; }
+    .in-check { background-color: var(--check) !important; }
+    .move-hint::after { content: ""; width: 20%; height: 20%; background: rgba(0,0,0,0.1); border-radius: 50%; }
 
-    .piece { font-size: calc(var(--sq-size) * 0.85); user-select: none; z-index: 10; transition: transform 0.2s; }
-    .piece.white { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .piece.black { color: #000; }
+    .piece { font-size: calc(var(--sq-size) * 0.85); user-select: none; z-index: 10; }
+    /* Counter-rotate pieces if the board is flipped so they stay upright */
+    .flipped .piece { transform: rotate(180deg); }
+    .white { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .black { color: #000; }
 
-    input { background: #000; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; width: 140px; font-size: 0.8rem; }
-    .id-text { font-family: monospace; color: #aaa; font-size: 0.75rem; background: #111; padding: 4px 8px; border-radius: 4px; }
+    #promotion-ui { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 20px; border: 2px solid var(--accent); z-index: 2000; border-radius: 10px; gap: 10px; }
+    .promo-btn { font-size: 40px; cursor: pointer; background: #333; padding: 10px; border-radius: 5px; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
   </style>
 </head>
 <body>
@@ -64,176 +63,240 @@
 <div class="app-container">
   <div class="control-center">
     <div class="mode-selector">
-      <button id="btn-local" class="mode-btn active" onclick="setMode('local')">Local Play</button>
-      <button id="btn-ai" class="mode-btn" onclick="setMode('ai')">VS Computer</button>
+      <button id="btn-local" class="mode-btn active" onclick="setMode('local')">Local</button>
+      <button id="btn-ai" class="mode-btn" onclick="setMode('ai')">VS Computer (Med)</button>
       <button id="btn-peer" class="mode-btn" onclick="setMode('peer')">Invite Friend</button>
     </div>
-    
     <div id="peer-panel" class="connection-panel">
-      <span id="peer-id-label" class="id-text">ID: Loading...</span>
-      <button class="mode-btn" style="padding:4px 8px" onclick="copyMyID()">Copy ID</button>
-      <div style="border-left: 1px solid #444; height: 20px; margin: 0 5px;"></div>
-      <input type="text" id="join-id" placeholder="Paste Friend's ID">
-      <button class="mode-btn" style="padding:4px 8px" onclick="joinFriend()">Connect</button>
+      <span id="peer-id-label" style="font-size: 0.7rem; font-family: monospace;">ID: ...</span>
+      <button class="mode-btn" onclick="copyMyID()">Copy</button>
+      <input type="text" id="join-id" placeholder="Friend ID" style="width:100px; background:#000; color:#fff; border:1px solid #444; padding:4px;">
+      <button class="mode-btn" onclick="joinFriend()">Join</button>
     </div>
   </div>
 
   <div id="status">White to Move</div>
 
-  <div class="board-wrapper">
+  <div class="board-wrapper" id="board-orient">
     <div id="chessboard"></div>
   </div>
 </div>
 
+<div id="promotion-ui"></div>
+
 <script>
-  // --- SETTINGS ---
+  // --- SETTINGS & STATE ---
   let gameMode = 'local';
-  let myColor = null; // Used for Online Friend
+  let myColor = 'white';
   let peer, conn;
   let isAIBusy = false;
-
-  const piecesMap = { r:"♜", n:"♞", b:"♝", q:"♛", k:"♚", p:"♟", R:"♖", N:"♘", B:"♗", Q:"♕", K:"♔", P:"♙" };
-  const visualMap = { "♖":"♜", "♘":"♞", "♗":"♝", "♕":"♛", "♔":"♚", "♙":"♟", "♜":"♜", "♞":"♞", "♝":"♝", "♛":"♛", "♚":"♚", "♟":"♟" };
   
-  let gameState = { squares: new Array(64).fill(""), currentTurn: "white", selectedIdx: null, gameActive: true };
+  const visualMap = { "♖":"♜", "♘":"♞", "♗":"♝", "♕":"♛", "♔":"♚", "♙":"♟", "♜":"♜", "♞":"♞", "♝":"♝", "♛":"♛", "♚":"♚", "♟":"♟" };
+  const pValues = { "♟": 10, "♞": 30, "♝": 30, "♜": 50, "♛": 90, "♚": 900 };
+
+  let state = {
+    squares: new Array(64).fill(""),
+    turn: "white",
+    selected: null,
+    history: { wK: false, wR1: false, wR2: false, bK: false, bR1: false, bR2: false },
+    check: null
+  };
 
   // --- INIT ---
-  function initBoard() {
+  function init() {
     const start = ["rnbqkbnr", "pppppppp", "........", "........", "........", "........", "PPPPPPPP", "RNBQKBNR"];
-    gameState.squares = new Array(64).fill("");
-    start.forEach((row, r) => [...row].forEach((char, c) => {
-        if (char !== ".") gameState.squares[r * 8 + c] = piecesMap[char];
-    }));
-    gameState.currentTurn = "white";
-    gameState.gameActive = true;
-    gameState.selectedIdx = null;
-    isAIBusy = false;
-    createUI();
-    updateDisplay();
+    state.squares = new Array(64).fill("");
+    const map = {r:"♜",n:"♞",b:"♝",q:"♛",k:"♚",p:"♟",R:"♖",N:"♘",B:"♗",Q:"♕",K:"♔",P:"♙"};
+    start.forEach((row, r) => [...row].forEach((char, c) => { if(char !== ".") state.squares[r*8+c] = map[char]; }));
+    state.turn = "white"; state.selected = null; state.check = null;
+    state.history = { wK:false, wR1:false, wR2:false, bK:false, bR1:false, bR2:false };
+    render();
   }
 
-  function createUI() {
+  function render() {
     const board = document.getElementById("chessboard");
     board.innerHTML = "";
+    const isCheck = isInCheck(state.turn, state.squares);
+    
+    // Perspective handling
+    const wrapper = document.getElementById("board-orient");
+    if (gameMode === 'peer' && myColor === 'black') wrapper.classList.add('flipped'), wrapper.style.transform = "rotate(180deg)";
+    else wrapper.classList.remove('flipped'), wrapper.style.transform = "rotate(0deg)";
+
     for (let i = 0; i < 64; i++) {
       const sq = document.createElement("div");
-      sq.className = `square ${ (Math.floor(i/8) + (i%8)) % 2 === 0 ? 'light' : 'dark' }`;
-      sq.onclick = () => onSquareClick(i);
-      board.appendChild(sq);
-    }
-  }
-
-  function updateDisplay() {
-    const squares = document.getElementById("chessboard").children;
-    for (let i = 0; i < 64; i++) {
-      const sq = squares[i]; sq.innerHTML = ""; sq.classList.remove("selected", "move-hint");
-      const p = gameState.squares[i];
+      sq.className = `square ${(Math.floor(i/8) + i%8)%2===0?'light':'dark'}`;
+      const p = state.squares[i];
       if (p) {
         const span = document.createElement("span");
-        const color = ["♙","♖","♘","♗","♕","♔"].includes(p) ? "white" : "black";
-        span.className = `piece ${color}`;
+        span.className = `piece ${getCol(p)}`;
         span.textContent = visualMap[p];
         sq.appendChild(span);
+        if (isCheck && visualMap[p] === '♚' && getCol(p) === state.turn) sq.classList.add('in-check');
       }
-      if (gameState.selectedIdx === i) sq.classList.add("selected");
-      if (gameState.selectedIdx !== null && isLegalMove(gameState.selectedIdx, i)) sq.classList.add("move-hint");
+      if (state.selected === i) sq.classList.add("selected");
+      sq.onclick = () => handleClick(i);
+      board.appendChild(sq);
     }
 
-    // Status Message logic
-    let statusMsg = `${gameState.currentTurn} to move`;
-    if (gameMode === 'ai' && gameState.currentTurn === 'black') statusMsg = "Computer is thinking...";
-    if (gameMode === 'peer' && myColor && gameState.currentTurn !== myColor) statusMsg = "Waiting for friend...";
-    document.getElementById("status").innerText = statusMsg;
+    const statEl = document.getElementById("status");
+    statEl.classList.toggle("check-warning", isCheck);
+    
+    if (isCheckmate(state.turn)) statEl.innerText = "CHECKMATE - " + (state.turn === 'white' ? 'BLACK' : 'WHITE') + " WINS";
+    else statEl.innerText = (isCheck ? "CHECK! " : "") + state.turn.toUpperCase() + " TO MOVE";
   }
 
-  // --- CHESS LOGIC ---
-  function getPieceColor(p) { return p ? (["♙","♖","♘","♗","♕","♔"].includes(p) ? "white" : "black") : null; }
-  
-  function isPathClear(f, t, s) {
+  // --- LOGIC ---
+  function getCol(p) { return !p ? null : (["♙","♖","♘","♗","♕","♔"].includes(p) ? "white" : "black"); }
+
+  function canMove(f, t, s) {
+    const p = s[f], color = getCol(p), target = s[t], type = visualMap[p];
+    if (target && getCol(target) === color) return false;
     const fr = Math.floor(f/8), fc = f%8, tr = Math.floor(t/8), tc = t%8;
-    const rs = tr === fr ? 0 : (tr > fr ? 1 : -1), cs = tc === fc ? 0 : (tc > fc ? 1 : -1);
-    let r = fr + rs, c = fc + cs;
-    while (r !== tr || c !== tc) { if (s[r * 8 + c] !== "") return false; r += rs; c += cs; }
+    const rd = Math.abs(tr-fr), cd = Math.abs(tc-fc);
+
+    const clear = (f, t) => {
+      const rStep = tr === fr ? 0 : (tr > fr ? 1 : -1), cStep = tc === fc ? 0 : (tc > fc ? 1 : -1);
+      let r = fr + rStep, c = fc + cStep;
+      while (r !== tr || c !== tc) { if (s[r * 8 + c] !== "") return false; r += rStep; c += cStep; }
+      return true;
+    };
+
+    switch (type) {
+      case "♜": return (fr === tr || fc === tc) && clear(f, t);
+      case "♝": return (rd === cd) && clear(f, t);
+      case "♛": return (fr === tr || fc === tc || rd === cd) && clear(f, t);
+      case "♞": return (rd === 2 && cd === 1) || (rd === 1 && cd === 2);
+      case "♚": 
+        // Castling
+        if (rd === 0 && cd === 2) {
+          if (color === 'white' && state.history.wK) return false;
+          if (color === 'black' && state.history.bK) return false;
+          if (tc === 6) { // King Side
+            const rookIdx = color === 'white' ? 63 : 7;
+            const rookMoved = color === 'white' ? state.history.wR2 : state.history.bR2;
+            return !rookMoved && s[f+1] === "" && s[f+2] === "" && !isInCheck(color, s);
+          }
+          if (tc === 2) { // Queen Side
+            const rookMoved = color === 'white' ? state.history.wR1 : state.history.bR1;
+            return !rookMoved && s[f-1] === "" && s[f-2] === "" && s[f-3] === "" && !isInCheck(color, s);
+          }
+        }
+        return rd <= 1 && cd <= 1;
+      case "♟":
+        if (color === "white") return (fc === tc && !target && (tr === fr-1 || (fr===6 && tr===4 && s[5*8+fc]===""))) || (cd===1 && tr===fr-1 && target && getCol(target)==="black");
+        else return (fc === tc && !target && (tr === fr+1 || (fr===1 && tr===3 && s[2*8+fc]===""))) || (cd===1 && tr===fr+1 && target && getCol(target)==="white");
+    }
+    return false;
+  }
+
+  function isInCheck(color, s) {
+    const kIdx = s.indexOf(color === 'white' ? '♔' : '♚');
+    const opp = color === 'white' ? 'black' : 'white';
+    for(let i=0; i<64; i++) if(s[i] && getCol(s[i]) === opp && canMove(i, kIdx, s)) return true;
+    return false;
+  }
+
+  function isLegal(f, t) {
+    if (!canMove(f, t, state.squares)) return false;
+    const v = [...state.squares]; v[t] = v[f]; v[f] = "";
+    return !isInCheck(getCol(state.squares[f]), v);
+  }
+
+  function isCheckmate(color) {
+    if (!isInCheck(color, state.squares)) return false;
+    for(let f=0; f<64; f++) {
+      if(state.squares[f] && getCol(state.squares[f]) === color) {
+        for(let t=0; t<64; t++) if(isLegal(f, t)) return false;
+      }
+    }
     return true;
   }
 
-  function isValidGeom(p, f, t, s) {
-    const fr = Math.floor(f/8), fc = f%8, tr = Math.floor(t/8), tc = t%8;
-    const rd = Math.abs(tr - fr), cd = Math.abs(tc - fc), target = s[t], color = getPieceColor(p), type = visualMap[p];
-    if (target && getPieceColor(target) === color) return false;
-    switch (type) {
-      case "♜": return (fr === tr || fc === tc) && isPathClear(f, t, s);
-      case "♝": return (rd === cd) && isPathClear(f, t, s);
-      case "♛": return (fr === tr || fc === tc || rd === cd) && isPathClear(f, t, s);
-      case "♞": return (rd === 2 && cd === 1) || (rd === 1 && cd === 2);
-      case "♚": return rd <= 1 && cd <= 1;
-      case "♟":
-        if (color === "white") return (fc === tc && !target && (tr === fr-1 || (fr===6 && tr===4 && s[5*8+fc]===""))) || (cd===1 && tr===fr-1 && target && getPieceColor(target)==="black");
-        else return (fc === tc && !target && (tr === fr+1 || (fr===1 && tr===3 && s[2*8+fc]===""))) || (cd===1 && tr===fr+1 && target && getPieceColor(target)==="white");
-    }
-  }
-
-  function isLegalMove(f, t) {
-    const s = gameState.squares;
-    if (!isValidGeom(s[f], f, t, s)) return false;
-    const v = [...s]; v[t] = v[f]; v[f] = "";
-    const color = getPieceColor(s[f]), kIdx = v.indexOf(color === "white" ? "♔" : "♚"), opp = color === "white" ? "black" : "white";
-    return !v.some((p, i) => p && getPieceColor(p) === opp && isValidGeom(p, i, kIdx, v));
-  }
-
   // --- ACTIONS ---
-  function onSquareClick(i) {
-    if (!gameState.gameActive || isAIBusy) return;
-    if (gameMode === 'ai' && gameState.currentTurn === 'black') return;
-    if (gameMode === 'peer' && myColor && gameState.currentTurn !== myColor) return;
-
-    const p = gameState.squares[i];
-    if (gameState.selectedIdx === null) {
-      if (p && getPieceColor(p) === gameState.currentTurn) gameState.selectedIdx = i;
+  function handleClick(i) {
+    if (isAIBusy || (gameMode==='peer' && state.turn !== myColor)) return;
+    const p = state.squares[i];
+    if (state.selected === null) {
+      if (p && getCol(p) === state.turn) state.selected = i;
     } else {
-      if (isLegalMove(gameState.selectedIdx, i)) doMove(gameState.selectedIdx, i);
-      else gameState.selectedIdx = (p && getPieceColor(p) === gameState.currentTurn) ? i : null;
+      if (isLegal(state.selected, i)) {
+        const moving = state.squares[state.selected];
+        if (visualMap[moving] === '♟' && (Math.floor(i/8) === 0 || Math.floor(i/8) === 7)) {
+          showPromo(state.selected, i);
+        } else {
+          execute(state.selected, i);
+        }
+      } else state.selected = (p && getCol(p) === state.turn) ? i : null;
     }
-    updateDisplay();
+    render();
   }
 
-  function doMove(f, t, remote = false) {
-    gameState.squares[t] = gameState.squares[f];
-    gameState.squares[f] = "";
-    if (!remote && gameMode === 'peer' && conn) conn.send({f, t});
-    gameState.selectedIdx = null;
-    gameState.currentTurn = gameState.currentTurn === "white" ? "black" : "white";
-    updateDisplay();
-    if (gameMode === 'ai' && gameState.currentTurn === 'black') runAI();
+  function execute(f, t, prom = null, remote = false) {
+    const p = state.squares[f];
+    // Castling logic - move rook too
+    if (visualMap[p] === '♚' && Math.abs((t%8)-(f%8)) === 2) {
+      if (t%8 === 6) { state.squares[t-1] = state.squares[t+1]; state.squares[t+1] = ""; }
+      if (t%8 === 2) { state.squares[t+1] = state.squares[t-2]; state.squares[t-2] = ""; }
+    }
+    
+    // Update history for castling
+    if (f === 60) state.history.wK = true; if (f === 4) state.history.bK = true;
+    if (f === 56) state.history.wR1 = true; if (f === 63) state.history.wR2 = true;
+    if (f === 0) state.history.bR1 = true; if (f === 7) state.history.bR2 = true;
+
+    state.squares[t] = prom || state.squares[f];
+    state.squares[f] = "";
+    if (!remote && gameMode === 'peer' && conn) conn.send({f, t, prom});
+    state.selected = null; state.turn = state.turn === "white" ? "black" : "white";
+    render();
+    if (gameMode === 'ai' && state.turn === 'black') runAI();
   }
 
-  // --- AI ---
+  // --- AI (MEDIUM) ---
   function runAI() {
     isAIBusy = true;
     setTimeout(() => {
-      const moves = [];
-      gameState.squares.forEach((p, i) => {
-        if (p && getPieceColor(p) === 'black') {
-          for(let to=0; to<64; to++) if(isLegalMove(i, to)) moves.push({f:i, t:to});
-        }
-      });
-      if (moves.length) {
-        const m = moves[Math.floor(Math.random() * moves.length)];
-        doMove(m.f, m.t, true);
+      let moves = [];
+      for(let f=0; f<64; f++) if(getCol(state.squares[f])==='black') {
+        for(let t=0; t<64; t++) if(isLegal(f, t)) moves.push({f, t, val: evalMove(f, t)});
       }
+      moves.sort((a,b) => b.val - a.val);
+      const best = moves.slice(0, 3)[Math.floor(Math.random()*Math.min(3, moves.length))];
+      if (best) execute(best.f, best.t);
       isAIBusy = false;
-      updateDisplay();
     }, 600);
   }
 
-  // --- SYSTEM ---
+  function evalMove(f, t) {
+    let score = 0;
+    const target = state.squares[t];
+    if (target) score += pValues[visualMap[target]] * 10;
+    // Central control bonus
+    const tr = Math.floor(t/8), tc = t%8;
+    if (tr >= 3 && tr <= 4 && tc >= 3 && tc <= 4) score += 5;
+    return score;
+  }
+
+  // --- UI HELPERS ---
+  function showPromo(f, t) {
+    const ui = document.getElementById("promotion-ui");
+    const pieces = state.turn === 'white' ? ["♕","♖","♗","♘"] : ["♛","♜","♝","♞"];
+    ui.innerHTML = pieces.map(p => `<span class="promo-btn" onclick="finishPromo(${f},${t},'${p}')">${p}</span>`).join("");
+    ui.style.display = "flex";
+  }
+  function finishPromo(f, t, p) {
+    document.getElementById("promotion-ui").style.display = "none";
+    execute(f, t, p);
+  }
+
   function setMode(m) {
     gameMode = m;
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + m).classList.add('active');
     document.getElementById('peer-panel').style.display = (m === 'peer' ? 'flex' : 'none');
     if (m === 'peer' && !peer) initPeer();
-    initBoard();
+    init();
   }
 
   function initPeer() {
@@ -241,26 +304,14 @@
     peer.on('open', id => document.getElementById('peer-id-label').innerText = "ID: " + id);
     peer.on('connection', c => { conn = c; myColor = "white"; setupConn(); });
   }
-
-  function copyMyID() {
-    const id = document.getElementById('peer-id-label').innerText.split(': ')[1];
-    if (id && id !== "Loading...") {
-      navigator.clipboard.writeText(id);
-      alert("ID copied! Send it to your friend.");
-    }
-  }
-
-  function joinFriend() {
-    const id = document.getElementById('join-id').value;
-    if (id) { conn = peer.connect(id); myColor = "black"; setupConn(); }
-  }
-
+  function joinFriend() { const id = document.getElementById('join-id').value; conn = peer.connect(id); myColor = "black"; setupConn(); }
   function setupConn() {
-    conn.on('open', () => { alert("Connected! You are playing as " + myColor); initBoard(); });
-    conn.on('data', d => doMove(d.f, d.t, true));
+    conn.on('open', () => { alert("Match Found! Color: " + myColor); init(); });
+    conn.on('data', d => execute(d.f, d.t, d.prom, true));
   }
+  function copyMyID() { const id = document.getElementById('peer-id-label').innerText.split(': ')[1]; navigator.clipboard.writeText(id); alert("ID Copied!"); }
 
-  window.onload = initBoard;
+  window.onload = init;
 </script>
 </body>
 </html>
