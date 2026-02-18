@@ -653,10 +653,10 @@
   // This loader uses a Blob worker that importScripts() multiple candidate URLs.
   // It also tries a LOCAL "./stockfish.js" first (recommended best fix).
   const STOCKFISH_CANDIDATES = [
-    "./stockfish.js", // ✅ BEST: put stockfish.js next to this html file
-    "https://cdn.jsdelivr.net/npm/stockfish@18/src/stockfish.js",
-    "https://unpkg.com/stockfish@18/src/stockfish.js"
-  ];
+  "./stockfish.js",
+  "https://cdn.jsdelivr.net/npm/stockfish@18/src/stockfish.js",
+  "https://unpkg.com/stockfish@18/src/stockfish.js"
+];
 
   function makeBlobWorker(importUrl){
     const workerCode = `
@@ -1653,3 +1653,4 @@
 </script>
 </body>
 </html>
+
